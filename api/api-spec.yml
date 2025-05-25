@@ -1,0 +1,94 @@
+openapi: 3.0.3
+info:
+  title: Platform API
+  version: 0.1.0
+  description: Platform API.
+servers:
+  - url: http://localhost:8080
+paths:
+  /apps:
+    get:
+      summary: List all apps
+      operationId: listApps
+      responses:
+        '200':
+          description: A list of apps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/App'
+        '500':
+          description: Failed to query apps
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /apps/{id}:
+    get:
+      summary: Get app details
+      operationId: getAppDetails
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: App details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppDetails'
+        '404':
+          description: App not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Failed to query app
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    App:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      required:
+        - id
+        - name
+    AppDetails:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        owner:
+          type: string
+        language:
+          type: string
+        framework:
+          type: string
+      required:
+        - id
+        - name
+        - owner
+        - language
+        - framework
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
