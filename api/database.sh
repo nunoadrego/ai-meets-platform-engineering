@@ -16,12 +16,13 @@ CREATE TABLE apps (
     name VARCHAR(255) NOT NULL,
     owner VARCHAR(255) NOT NULL,
     language VARCHAR(100) NOT NULL,
-    framework VARCHAR(100) NOT NULL
+    framework VARCHAR(100) NOT NULL,
+    namespace VARCHAR(100)
 );
 
-INSERT INTO apps (name, owner, language, framework) VALUES ('billing-engine', 'Ledger', 'Kotlin', 'Spring Boot');
+INSERT INTO apps (name, owner, language, framework, namespace) VALUES ('billing-engine', 'Ledger', 'Kotlin', 'Spring Boot', 'billing');
 INSERT INTO apps (name, owner, language, framework) VALUES ('payment-gateway', 'Paystream', 'Python', 'FastAPI');
-INSERT INTO apps (name, owner, language, framework) VALUES ('customer-portal', 'Horizon', 'Python', 'FastAPI');
+INSERT INTO apps (name, owner, language, framework, namespace) VALUES ('customer-portal', 'Horizon', 'Python', 'FastAPI', 'customer');
 INSERT INTO apps (name, owner, language, framework) VALUES ('inventory-management', 'Stockpile', 'Python', 'FastAPI');
 INSERT INTO apps (name, owner, language, framework) VALUES ('order-management', 'Fulfill', 'Kotlin', 'Spring Boot');
 INSERT INTO apps (name, owner, language, framework) VALUES ('shipping-management', 'Dispatch', 'go', 'gin');

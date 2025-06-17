@@ -47,14 +47,18 @@ func getApps(c *gin.Context) {
 
 func getAppDetails(c *gin.Context) {
 	var app AppDetails
-	err := db.QueryRow("SELECT id, name, owner, language, framework FROM apps WHERE id = $1", c.Param("id")).
-		Scan(&app.ID, &app.Name, &app.Owner, &app.Language, &app.Framework)
+	var namespace sql.NullString
+	err := db.QueryRow("SELECT id, name, owner, language, framework, namespace FROM apps WHERE id = $1", c.Param("id")).
+		Scan(&app.ID, &app.Name, &app.Owner, &app.Language, &app.Framework, &namespace)
 	if err == sql.ErrNoRows {
 		c.JSON(http.StatusNotFound, gin.H{"error": "App not found"})
 		return
 	} else if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to query app"})
 		return
+	}
+	if namespace.Valid {
+		app.Namespace = namespace.String
 	}
 	c.JSON(http.StatusOK, app)
 }
@@ -70,4 +74,5 @@ type AppDetails struct {
 	Owner     string `json:"owner"`
 	Language  string `json:"language"`
 	Framework string `json:"framework"`
+	Namespace string `json:"namespace,omitempty"`
 }
