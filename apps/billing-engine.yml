@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: billing
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    app: billing-engine
+    team: ledger
+  name: billing-engine
+  namespace: billing
+spec:
+  containers:
+    - command:
+        - /bin/sh
+      args:
+        - "-c"
+        - "while true; do i=1; done"
+      image: busybox
+      name: busybox
+      resources:
+        requests:
+          cpu: 10m
+        limits:
+          cpu: 2000m
+      livenessProbe:
+        exec:
+          command:
+            - sh
+            - -c
+            - "ps aux"
+        successThreshold: 1
+        failureThreshold: 3
+        timeoutSeconds: 1
+        periodSeconds: 5
